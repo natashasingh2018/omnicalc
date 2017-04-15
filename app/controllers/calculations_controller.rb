@@ -93,22 +93,31 @@ class CalculationsController < ApplicationController
 
     @range = @maximum - @minimum
 
-    # @median_even = @sorted_numbers.at(@count/2)
-    # @median_odd = (@sorted_numbers.at(@count/2)+ @sorted_numbers.at(@count/2-1))/2
-    #
-    # if @count%2 == 0 @median = @median_even end @median = @median_odd
 
-    @median = (@sorted_numbers.at(@count/2)+ @sorted_numbers.at(@count/2-1))/2
+    @median = (@sorted_numbers.at(@count/2)+ @sorted_numbers.at((@count-1)/2))/2
 
     @sum = @numbers.sum
 
     @mean = @numbers.sum / @numbers.count
 
-    @variance = "Replace this string with your answer."
+    # @variance = 0
+    # @numbers.each do |num|
+    # @variancepart = (num - @mean)**2
+    # @variance = @variance + @variancepart
+    #   end
+    #
+    # @variance = @variance / (@count-1)
+    squaredarray = []
+    @numbers.each do |num|
+      difference = (num - @mean)**2
+      squaredarray.push(difference)
+    end
+    @variance = squaredarray.sum / (squaredarray.count)
+    #@variance = "Replace this string with your answer."
 
-    @standard_deviation = "Replace this string with your answer."
+    @standard_deviation = Math.sqrt(@variance)
 
-    @mode = "Replace this string with your answer."
+    @mode = @numbers.max_by { |i| @numbers.count(i) }
 
     # ================================================================================
     # Your code goes above.
